@@ -1,0 +1,6 @@
+enum ItemStatus{
+  OK,
+  Attente,
+
+
+}
