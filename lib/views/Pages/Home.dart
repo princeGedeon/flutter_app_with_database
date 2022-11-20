@@ -7,6 +7,7 @@ import '../../Models/Class_models/itemlist.dart';
 import '../CustomAppBar.dart';
 import '../adddialog.dart';
 import '../itemlistetile.dart';
+import 'articleListView.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -73,6 +74,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   onListPressed(ItemList itemList){
+    final next=ArticlListView(itemList: itemList,);
+    MaterialPageRoute materialPageRoute=MaterialPageRoute(builder: (context)=>next);
+    Navigator.of(context).push(materialPageRoute);
+
 
   }
 
