@@ -6,6 +6,7 @@ import 'package:projet_flutter_sqlite/services/DatabaseClient.dart';
 import '../../Models/Class_models/itemlist.dart';
 import '../CustomAppBar.dart';
 import '../adddialog.dart';
+import '../itemlistetile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,15 +21,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState(){
-
+    getItemList();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(titleString: "Ma liste de souhait", buttonTItle: 'Add', callbback: addItemList,),
-      body: Center(
-        child: Text("Voila mon body et nous avaons ${items.length}"),
-      ),
+      body:ListView.separated(itemBuilder: (context,index){
+        final item=items[index];
+        return ItemListTile(itemList: item,
+          onDelete: onDeleteItem,
+          onPressed: onListPressed,
+
+        );
+      },
+          separatorBuilder: ((context,index)=> const Divider()), itemCount: items.length)
     );
   }
 
@@ -37,7 +44,6 @@ class _HomePageState extends State<HomePage> {
   setState(() {
     items=fromDB;
   });
-  print(items);
 
   }
 
@@ -58,6 +64,16 @@ class _HomePageState extends State<HomePage> {
   handleCloseDialog(){
     Navigator.pop(context);
     FocusScope.of(context).requestFocus(FocusNode());
+  }
+
+  onDeleteItem(ItemList itemList){
+
+    DatabaseClient().removeItem(itemList).then((value) => getItemList());
+
+  }
+
+  onListPressed(ItemList itemList){
+
   }
 
 }

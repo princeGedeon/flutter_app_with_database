@@ -65,13 +65,19 @@ class DatabaseClient{
 
   Future<bool> addItemList (String text) async{
     Database db=await database;
-    print("jo");
+
     await db.insert("Task", {
 
       "title":text,
       "status":"Yo"
     });
-    print("fuck");
+
+    return true;
+  }
+
+  Future<bool> removeItem(ItemList item) async{
+    Database db=await database;
+    await db.delete('Task',where: "id = ?",whereArgs:[item.id]);
     return true;
   }
 
