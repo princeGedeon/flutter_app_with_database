@@ -9,7 +9,7 @@ class ItemList{
 
   factory ItemList.fromJson(Map<String, dynamic> json) {
     return ItemList(
-      id: int.parse(json["id"]),
+      id: json["id"],
       title: json["title"],
       status: json["status"],
     );

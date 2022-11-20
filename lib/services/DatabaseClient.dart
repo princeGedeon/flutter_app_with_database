@@ -30,7 +30,7 @@ class DatabaseClient{
 
   }
   onCreate(Database database,int version) async{
-    await database.execute(''''
+    await database.execute('''
       CREATE TABLE Task (
       id INTEGER PRIMARY KEY,
       title TEXT NOT NULL,
@@ -39,7 +39,7 @@ class DatabaseClient{
     
     ''');
 
-    await database.execute(''''
+    await database.execute('''
       CREATE TABLE Article (
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
@@ -61,5 +61,18 @@ class DatabaseClient{
     return mapList.map((e) => ItemList.fromJson(e)).toList();
   }
 
+
+
+  Future<bool> addItemList (String text) async{
+    Database db=await database;
+    print("jo");
+    await db.insert("Task", {
+
+      "title":text,
+      "status":"Yo"
+    });
+    print("fuck");
+    return true;
+  }
 
 }
