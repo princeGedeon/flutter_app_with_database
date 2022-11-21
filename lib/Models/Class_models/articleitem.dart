@@ -1,5 +1,5 @@
 class Article {
-  int id;
+  int? id;
   String name;
   int task;
   double? price;
@@ -10,14 +10,26 @@ class Article {
 
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      id: int.parse(json["id"]),
+      id: json["id"],
       name: json["name"],
-      task: int.parse(json["task"]),
-      price: double.parse(json["price"]),
+      task: json["task"],
+      price: json["price"],
       shop: json["shop"],
       image: json["image"],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": this.id,
+      "name": this.name,
+      "task": this.task,
+      "price": this.price,
+      "shop": this.shop,
+      "image": this.image,
+    };
+  }
+
 //
 
 }

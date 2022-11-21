@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:projet_flutter_sqlite/Models/Class_models/articleitem.dart';
 import 'package:projet_flutter_sqlite/Models/Class_models/itemlist.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -61,7 +62,16 @@ class DatabaseClient{
     return mapList.map((e) => ItemList.fromJson(e)).toList();
   }
 
+  Future<List<Article>> ariclesFromId(int id) async{
+      Database db=await database;
+      List<Map<String,dynamic>> mapList=await db.query('Article',where:"task = ?",
+      whereArgs: [id]);
+      print(mapList);
 
+      return mapList.map((e) => Article.fromJson(e)).toList();
+
+
+  }
 
   Future<bool> addItemList (String text) async{
     Database db=await database;
@@ -78,7 +88,22 @@ class DatabaseClient{
   Future<bool> removeItem(ItemList item) async{
     Database db=await database;
     await db.delete('Task',where: "id = ?",whereArgs:[item.id]);
+
+    await db.delete("Article",where: "task= ?",whereArgs: [item.id]);
     return true;
   }
+
+
+  Future<bool> upsert(Article article) async{
+    Database db=await database;
+    (article.id==null)?
+        article.id=await db.insert('Article', article.toJson()):
+        await db.update('Article',article.toJson(), where:"id=?",whereArgs: [article.id]);
+
+    return true;
+
+  }
+
+
 
 }
